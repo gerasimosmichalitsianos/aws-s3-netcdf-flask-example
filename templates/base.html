@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="{{url_for('static', filename='jquery-3.5.1.min.js')}}"></script> 
+  <script src="{{url_for('static', filename='maputils.js')}}"></script> 
+  <script src="{{url_for('static', filename='leaflet/leaflet.js')}}" integrity="" crossorigin=""></script>
+  <link rel="stylesheet" href="{{ url_for('static',filename='leaflet/leaflet.css')}}" integrity="" crossorigin="" />
+
+  {% block head %}{% endblock %} 
+</head>
+<body>
+  {% block body %}{% endblock %} 
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block head %}
+  <title>CSR/ASR and GOES ASOS Monitoring System</title>
+{% endblock %}
+
+{% block body %}
+  
+  {% block header %}
+    <center>
+    <h2 style='font-family:monospace;'>Sample Map</h2>
+    </center>
+  {% endblock %}
+
+  <center>
+    <div id="map" style="width: 1000px; height: 800px;"></div>
+  </center>
+
+  {% block footer %}
+    <center>
+      <div>
+        <p style="color: blue;"><i><b>powered by: </i></b></p>
+        <img src="{{url_for('static', filename='img/flask_logo.png') }}" height="" width="260px"/>
+        <p><b>Contact:</b> Gerasimos "Geri" Michalitsianos</p>
+        <p><b>Last Updated:</b> 24 September 2023</p>
+      </div>
+    </center>
+  {% endblock %}
+
+{% endblock %}
