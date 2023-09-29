@@ -10,7 +10,6 @@ import socket
 from netCDF4 import Dataset
 from collections import OrderedDict
 from flask import Flask, redirect, request, render_template, url_for, jsonify
-from config import Config
 
 application = Flask(__name__)
 params = {
