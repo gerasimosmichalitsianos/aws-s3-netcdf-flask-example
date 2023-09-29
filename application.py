@@ -29,10 +29,8 @@ def get_netcdf_variable():
     # first we need to set up environment variables for our AWS credentials
     # --------------------------------------------------------------------- 
     results = {}
-    #aws_access_key_id = os.environ.get('ACCESS_KEY') 
-    #aws_secret_access_key = os.environ.get('SECRET_ACCESS_KEY')
-    aws_access_key_id = 'AKIARDIKUGHT7AXACP5H'                                                                                     
-    aws_secret_access_key = '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'
+    aws_access_key_id = os.environ.get('ACCESS_KEY') 
+    aws_secret_access_key = os.environ.get('SECRET_ACCESS_KEY')
     if not aws_access_key_id or not aws_secret_access_key:
       return {'processed': 'false: unable to obtain AWS credentials from environment vars.'}
 
