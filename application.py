@@ -24,9 +24,9 @@ def home():
 def get_netcdf_variable():
   if request.method == "POST":
 
-    #arr = ds[netcdf_variable][:]
-    # first we need to set up environment variables for our AWS credentials
-    # --------------------------------------------------------------------- 
+    # get AWS credentials from command-line (terminal) environment
+    # variables 
+    # ------------------------------------------------------------
     results = {}
     aws_access_key_id = os.environ.get('ACCESS_KEY') 
     aws_secret_access_key = os.environ.get('SECRET_ACCESS_KEY')
@@ -37,12 +37,12 @@ def get_netcdf_variable():
     # --------------------------------
     input_params = request.get_json()
 
-    # get parameters
-    # --------------
+    # get netcdf file-path from Javascript 
+    # ------------------------------------
     netcdf_path = input_params['netcdf_path'] # from ajax() call from Javascript
 
-    # read the latitude, longitude, and other variable of interest (that was passed-in)
-    # ---------------------------------------------------------------------------------
+    # create s3fs file-system object 
+    # ------------------------------
     timeout = params['timeout'] 
     s3fs.S3FileSystem.read_timeout = timeout
     s3fs.S3FileSystem.connect_timeout = timeout
@@ -54,6 +54,7 @@ def get_netcdf_variable():
       config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
  
     # open netcdf4 file in s3 bucket as a binary file
+    # and use data-stream to read the bytes
     # -----------------------------------------------
     with s3.open(netcdf_path, 'rb') as f:
       nc_bytes = f.read()
@@ -71,20 +72,21 @@ def get_netcdf_variable():
     # close out the netcdf file
     # -------------------------
     ds.close()
- 
-    # remove no_data values (-999.0) and flatten the array
-    # and convert to list[] using ndarray.tolist()
-    # size may be ~48000 pixels after filtering give or take
-    # ------------------------------------------------------
+
+    # convert numpy arrays to lists[] 
+    # -------------------------------
     lats = lats.flatten().tolist()
     lngs = lngs.flatten().tolist()
     temps = temps.flatten().tolist()
 
+    # join each list of numbers to a comma-separated string, store
+    # in JSON to send back to the AJAX request as output from the Flask server
+    # ------------------------------------------------------------------------
     results['processed'] = 'true' 
     results['lats'] = ','.join([str(v) for v in lats])
     results['lngs'] = ','.join([str(v) for v in lngs])
     results['temps'] = ','.join([str(v) for v in temps])
-    results['min'] = str(0.0)
+    results['min'] = str(0.0) # have to use strings here in JSON
     results['max'] = str(max_value)
     return jsonify(results)    
  

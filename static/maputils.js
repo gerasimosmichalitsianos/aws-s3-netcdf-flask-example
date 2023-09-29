@@ -1,9 +1,8 @@
 $(document).ready(function() {
 
   function initializeMap() {
-
-    // bounds of map (full globe)
-    // **************************
+    // function to create and return Leaflet map object.
+    // *************************************************
     let bounds = [
       [-90.0, -180.0],
       [90.0, 180.0]
@@ -28,6 +27,11 @@ $(document).ready(function() {
   }
 
   function render_netcdf_data(netcdf_full_path_s3_bucket, leaflet_map) {
+    // function that runs async. ajax() call to the Flask server, sending the
+    // the full s3 bucket-path of a netcdf as an argument, and gets in return a JSON
+    // response containing comma-separated strings of the latitudes, longitudes, and
+    // temperatures to be plotted on the map (as well as the min. and max. values)
+    // *****************************************************************************
     $.ajax({
       type: "POST",
       url: "/get_netcdf_variable",
@@ -96,6 +100,9 @@ $(document).ready(function() {
   }
 
   function get_color_for_pixel(value, all_values, colors, threshes) {
+    // function to return a color based on a pixel value in the array
+    // of brightness temperatures
+    // **************************************************************
     if( value < threshes[0] ) {
       return colors[0]; // navy
     } else if( value >= threshes[0] && value < threshes[1] ) {
@@ -116,9 +123,13 @@ $(document).ready(function() {
       return colors[8]; // magenta
     }
   }
- 
-  var netcdf_s3 = 's3://netcdfs/OR-ABI-L2-CSRF-M6_v2r2_G18_s202309261820219_e202309261829528_c202309261832401.nc';
-  var map = initializeMap();
-  render_netcdf_data(netcdf_s3, map);
+
+  function main() { 
+    var netcdf_s3 = 's3://netcdfs/OR-ABI-L2-CSRF-M6_v2r2_G18_s202309261820219_e202309261829528_c202309261832401.nc';
+    var map = initializeMap();
+    render_netcdf_data(netcdf_s3, map);
+  }
+
+  main();
 
 });
