@@ -27,10 +27,10 @@ def get_netcdf_variable():
     # variables 
     # ------------------------------------------------------------
     results = {}
-    aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID') 
-    aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    if not aws_access_key_id or not aws_secret_access_key:
-      return {'processed': 'false: unable to obtain AWS credentials from environment vars.'}
+    #aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID') 
+    #aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    #if not aws_access_key_id or not aws_secret_access_key:
+    #  return {'processed': 'false: unable to obtain AWS credentials from environment vars.'}
 
     # get json input from ajax request
     # --------------------------------
@@ -46,12 +46,15 @@ def get_netcdf_variable():
     s3fs.S3FileSystem.read_timeout = timeout
     s3fs.S3FileSystem.connect_timeout = timeout
 
+    #s3 = s3fs.S3FileSystem(
+    #  anon = False,
+    #  key = aws_access_key_id,
+    #  secret = aws_secret_access_key,
+    #  config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
     s3 = s3fs.S3FileSystem(
-      anon = False,
-      key = aws_access_key_id,
-      secret = aws_secret_access_key,
+      anon = True,
       config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
- 
+
     # open netcdf4 file in s3 bucket as a binary file
     # and use data-stream to read the bytes
     # -----------------------------------------------
