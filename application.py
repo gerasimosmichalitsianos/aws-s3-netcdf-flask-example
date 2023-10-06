@@ -36,9 +36,19 @@ def get_netcdf_variable():
     s3fs.S3FileSystem.read_timeout = timeout
     s3fs.S3FileSystem.connect_timeout = timeout
 
-    s3 = s3fs.S3FileSystem(
-      anon = False,
-      config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
+    aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID') 
+    aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+    if aws_access_key_id and aws_secret_access_key: # both are not None
+      s3 = s3fs.S3FileSystem(
+        anon = False,
+        key = aws_access_key_id,
+        secret = aws_secret_access_key,
+        config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
+    else:
+      s3 = s3fs.S3FileSystem(
+        anon = False,
+        config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
 
     # open netcdf4 file in s3 bucket as a binary file
     # and use data-stream to read the bytes
