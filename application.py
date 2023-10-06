@@ -52,7 +52,7 @@ def get_netcdf_variable():
     #  secret = aws_secret_access_key,
     #  config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
     s3 = s3fs.S3FileSystem(
-      anon = True,
+      anon = False,
       config_kwargs = {"connect_timeout": timeout, "read_timeout": timeout})
 
     # open netcdf4 file in s3 bucket as a binary file
