@@ -23,13 +23,7 @@ def home():
 def get_netcdf_variable():
   if request.method == "POST":
 
-    # get AWS credentials from command-line (terminal) environment
-    # variables 
-    # ------------------------------------------------------------
     results = {}
-
-    # get json input from ajax request
-    # --------------------------------
     input_params = request.get_json()
 
     # get netcdf file-path from Javascript 
