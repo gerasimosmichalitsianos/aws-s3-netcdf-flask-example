@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-read-s3-netcdf-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-flask-app
+  template:
+    metadata:
+      labels:
+        app: test-flask-app
+    spec:
+      containers:
+      - name: test-flask-app
+        image: gmichali/flask-read-netcdf-s3:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "400m"
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+spec:
+  selector:
+    app: flask-app-read-s3-netcdf-deployment
+  ports:
+  - port: 6000
+    targetPort: 5000
+  type: LoadBalancer

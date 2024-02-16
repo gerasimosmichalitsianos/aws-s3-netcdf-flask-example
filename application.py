@@ -92,4 +92,4 @@ def get_netcdf_variable():
 
 if __name__ == '__main__':
   socket.setdefaulttimeout(10) # seconds
-  application.run(debug=True)
+  application.run(debug=True, port=5000, threaded=True, host=('0.0.0.0'))
